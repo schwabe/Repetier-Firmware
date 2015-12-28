@@ -39,7 +39,7 @@ SDCard::SDCard()
 
 void SDCard::automount()
 {
-#if SDCARDDETECT > -1
+#if SDCARDDETECT > -1 && false
     if(READ(SDCARDDETECT) != SDCARDDETECTINVERTED)
     {
         if(sdactive)   // Card removed

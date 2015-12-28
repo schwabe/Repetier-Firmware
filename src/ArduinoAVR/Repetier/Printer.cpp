@@ -564,7 +564,7 @@ void Printer::setup()
 #if FEATURE_CONTROLLER == CONTROLLER_VIKI
     HAL::delayMilliseconds(100);
 #endif // FEATURE_CONTROLLER
-    //HAL::delayMilliseconds(500);  // add a delay at startup to give hardware time for initalization
+    HAL::delayMilliseconds(500);  // add a delay at startup to give hardware time for initalization
 #if defined(EEPROM_AVAILABLE) && defined(EEPROM_SPI_ALLIGATOR) && EEPROM_AVAILABLE == EEPROM_SPI_ALLIGATOR
     HAL::spiBegin();
 #endif
@@ -615,8 +615,8 @@ void Printer::setup()
     WRITE(SDPOWER, HIGH);
 #endif
 #if defined(SDCARDDETECT) && SDCARDDETECT > -1
-    SET_INPUT(SDCARDDETECT);
-    PULLUP(SDCARDDETECT, HIGH);
+    //SET_INPUT(SDCARDDETECT);
+    //PULLUP(SDCARDDETECT, HIGH);
 #endif
 #endif
 
@@ -885,12 +885,17 @@ void Printer::setup()
 #endif
     EEPROM::initBaudrate();
     HAL::serialSetBaudrate(baudrate);
+    Com::printInfoFLN(PSTR("Baudrate done")); //$$
     Com::printFLN(Com::tStart);
     UI_INITIALIZE;
+    Com::printInfoFLN(PSTR("LCD init")); //$$
     HAL::showStartReason();
+    Com::printInfoFLN(PSTR("HAL::showStartReason()")); //$$
     Extruder::initExtruder();
+    Com::printInfoFLN(PSTR("initExtu")); //$$
     // sets autoleveling in eeprom init
     EEPROM::init(); // Read settings from eeprom if wanted
+    Com::printInfoFLN(PSTR("EEPROM::init();")); //$$
     for(uint8_t i = 0; i < E_AXIS_ARRAY; i++)
     {
         currentPositionSteps[i] = 0;
